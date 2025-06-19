@@ -1,0 +1,96 @@
+const express = require("express");
+const cyrusSync = require("../controllers/cyrusCMS.controller");
+
+const router = express.Router();
+
+router.post("/login", cyrusSync.userLogin);
+router.post("/getCategoryTable", cyrusSync.getCategoryTable);
+router.post("/getSubCategoryTable", cyrusSync.getSubCategoryTable);
+router.post("/getSubSubCategoryTable", cyrusSync.getSubSubCategoryTable);
+router.post("/getCategorycms", cyrusSync.getCategorycms);
+router.post("/getCategoryRelatedData", cyrusSync.getCategoryRelatedData);
+router.post("/addCategory", cyrusSync.addCategory);
+router.post("/updateCategory", cyrusSync.updateCategory);
+router.post("/addSubSubCategory", cyrusSync.addSubSubCategory);
+router.post("/updateSubSubCategory", cyrusSync.updateSubSubCategory);
+router.get("/getProductRelatedData", cyrusSync.getProductRelatedData);
+router.post("/addProduct", cyrusSync.saveProduct);
+router.post("/updateProduct", cyrusSync.updateProduct);
+router.post("/getProductTable", cyrusSync.getProductTable);
+router.post("/addMainBanner", cyrusSync.addMainBanner);
+router.post("/updateMainBanner", cyrusSync.updateMainBanner);
+router.post("/getMainBannerTable", cyrusSync.getMainBannerTable);
+router.post("/getBannerTable", cyrusSync.getBannerTable);
+router.post("/updateBanner", cyrusSync.updateBanner);
+router.post("/deleteBanner", cyrusSync.deleteBanner);
+router.post("/getContentTable", cyrusSync.getContentTable);
+router.post("/addContentData", cyrusSync.addContentData);
+router.post("/deleteContent", cyrusSync.deleteContent);
+router.post("/updateContent", cyrusSync.updateContent);
+router.post(
+  "/getFiltersAccordingToCategory",
+  cyrusSync.getFiltersAccordingToCategory
+);
+router.post("/updateManageFilter", cyrusSync.updateManageFilter);
+router.post("/addFilterWithCategory", cyrusSync.addFilterWithCategory);
+router.post("/addSubcategoryTitle", cyrusSync.addSubcategoryTitle);
+router.post("/getSubCategoryTitleTable", cyrusSync.getSubCategoryTitleTable);
+router.post(
+  "/updateManageSubcategoryTitle",
+  cyrusSync.updateManageSubcategoryTitle
+);
+router.delete("/deleteSubcategoryTitle", cyrusSync.deleteSubcategoryTitle);
+router.post("/uploadStockExcel", cyrusSync.updateProductStockByExcel);
+router.post("/getstocktable", cyrusSync.getStockTable);
+router.post("/getOrdersList", cyrusSync.getOrdersList);
+router.post("/getOrderDetails", cyrusSync.getOrderDetails);
+router.post("/getUserTable", cyrusSync.getUserTable);
+router.post("/saveOrdersLogs", cyrusSync.saveOrdersLogs);
+router.post("/getOrderLogs", cyrusSync.getOrderLogs);
+router.post("/activeUser", cyrusSync.activeUser);
+router.post("/inactiveUser", cyrusSync.inactiveUser);
+router.post("/getexpotProductList", cyrusSync.getexpotProductList);
+router.post("/updateErpNumber", cyrusSync.updateErpNumber);
+router.get("/getexportOrderList", cyrusSync.getexportOrderList);
+router.post("/getProductDetailByID", cyrusSync.getProductDetailByID);
+router.post("/deleteProduct", cyrusSync.deleteProduct);
+router.post("/sendShippingEmail", cyrusSync.sendShippingEmail);
+router.post("/getCreditMembersList", cyrusSync.getCreditMembersList);
+router.post("/UpdateStatusCreditAccount", cyrusSync.UpdateStatusCreditAccount);
+router.delete("/deleteSubCategory", cyrusSync.deleteSubCategory);
+router.post("/deleteCategory", cyrusSync.deleteCategory);
+router.delete("/deleteFilter", cyrusSync.deleteFilter);
+router.post("/uploadImage", cyrusSync.uploadImage);
+router.post("/deleteUploadImage", cyrusSync.deleteUploadImage);
+router.post("/getIndustriesTable", cyrusSync.getIndustriesTable);
+router.post("/saveIndustry", cyrusSync.saveIndustry);
+router.delete("/deleteIndustry", cyrusSync.deleteIndustry);
+router.post("/updateIndustry", cyrusSync.updateIndustry);
+router.post("/getBrandsTable", cyrusSync.getBrandsTable);
+router.post("/saveBrand", cyrusSync.saveBrand);
+router.delete("/deleteBrand", cyrusSync.deleteBrand);
+router.post("/updateBrand", cyrusSync.updateBrand);
+router.post("/getCataloguesTable", cyrusSync.getCataloguesTable);
+router.post("/saveCatalogue", cyrusSync.saveCatalogue);
+router.delete("/deleteCatalogue", cyrusSync.deleteCatalogue);
+router.post("/updateCatalogue", cyrusSync.updateCatalogue);
+router.post("/getCmsUserTable", cyrusSync.getCmsUserTable);
+router.post("/addCmsuser", cyrusSync.addCmsUser);
+router.post("/activeCmsUser", cyrusSync.activeCmsUser);
+router.post("/inactiveCmsUser", cyrusSync.inactiveCmsUser);
+router.post("/uploadCustPreAssembleData", cyrusSync.uploadCustPreAssembleData);
+router.post("/getCustPreassembleTable", cyrusSync.getCustPreassembleTable);
+router.post("/deleteCMSUser", cyrusSync.deleteCMSUser);
+router.post("/getQuotationsTable", cyrusSync.getQuotationsTable);
+router.post("/getQuoteData", cyrusSync.getQuoteData);
+router.post("/getAssemblySolutionsTable", cyrusSync.getAssemblySolutionsTable);
+router.post("/saveAssemblySolutions", cyrusSync.saveAssemblySolutions);
+router.delete("/deleteAssemblySolutions", cyrusSync.deleteAssemblySolutions);
+router.post("/crudVoucher", cyrusSync.crudVoucher);
+router.post("/crudProductDiscount", cyrusSync.crudProductDiscount);
+router.post("/crudProductFilters", cyrusSync.crudProductFilters);
+router.post("/createOrderInTLM", cyrusSync.createOrderInTLM);
+router.post("/duplicateProduct", cyrusSync.duplicateProduct);
+router.get("/dashboardData", cyrusSync.dashboardData);
+router.get("/check", cyrusSync.check);
+module.exports = router;
