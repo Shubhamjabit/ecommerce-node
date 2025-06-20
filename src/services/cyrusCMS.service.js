@@ -1154,7 +1154,7 @@ left join product_category pc on pc.product_id=pp.id left join category cc on cc
       } else {
         const [results] = await conn.execute(
           `select
-    pp.id, pp.name,pp.sparky_id,pp.isDuplicate,pp.slug,pp.status,
+    pp.id, pp.name,pp.sparky_id,pp.isDuplicate,pp.position,pp.slug,pp.status,
     pp.price, cc.name as parent_category,cc.title,
 pm.media_url  as product_media_default  from  ${config.env}.product as pp left join ${config.env}.product_media as pm on pm.product_id = pp.id and pm.default_image = '1'
 left join product_category pc on pc.product_id=pp.id left join category cc on cc.id= pc.category_id order by pp.id DESC`
@@ -1176,14 +1176,14 @@ left join product_category pc on pc.product_id=pp.id left join category cc on cc
 */
 
       console.log(`select
-pp.id, pp.name,pp.sparky_id,pp.isDuplicate,pp.slug,pp.status,
+pp.id, pp.name,pp.sparky_id,pp.isDuplicate,pp.position,pp.slug,pp.status,
 pp.price, cc.name as parent_category,cc.title,
 pm.media_url  as product_media_default  from  product as pp left join product_media as pm on pm.product_id = pp.id and pm.default_image = '1'
 left join product_category pc on pc.product_id=pp.id left join category cc on cc.id= pc.category_id where pp.name like  ${keywordSearch} OR pp.sparky_id like ${keywordSearch} order by pp.id DESC`);
 
       const [results] = await conn.execute(
         `select
-pp.id, pp.name,pp.sparky_id,pp.isDuplicate,pp.slug,pp.status,
+pp.id, pp.name,pp.sparky_id,pp.isDuplicate,pp.position,pp.slug,pp.status,
 pp.price, cc.name as parent_category,cc.title,
 pm.media_url  as product_media_default  from  product as pp left join product_media as pm on pm.product_id = pp.id and pm.default_image = '1'
 left join product_category pc on pc.product_id=pp.id left join category cc on cc.id= pc.category_id where pp.name like  ${keywordSearch} OR pp.sparky_id like ${keywordSearch} order by pp.id DESC`
@@ -1203,7 +1203,7 @@ left join product_category pc on pc.product_id=pp.id left join category cc on cc
       */
       const [results] = await conn.execute(
         `select
-pp.id, pp.name,pp.sparky_id,pp.isDuplicate,pp.slug,pp.status,
+pp.id, pp.name,pp.sparky_id,pp.isDuplicate,pp.position,pp.slug,pp.status,
 pp.price, cc.name as parent_category,cc.title,
 pm.media_url  as product_media_default  from  product as pp left join product_media as pm on pm.product_id = pp.id and pm.default_image = '1'
 left join product_category pc on pc.product_id=pp.id left join category cc on cc.id= pc.category_id where  pp.status=${req.filter} order by pp.id DESC`
