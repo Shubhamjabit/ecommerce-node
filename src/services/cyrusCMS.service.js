@@ -873,7 +873,7 @@ const updateProductData = async (req) => {
       if (req.product_key_features && req.product_key_features != "") {
         key_features = parse(req.product_key_features);
       }
-      let productDesc = parse(req.description);
+      let productDesc = (req.description);
       // console.log("!!!!!!!!!!!!! key_features", key_features);
       console.log(
         "%%%%%%%%%%%%%%%%%%%%%%%",
@@ -1141,7 +1141,7 @@ pm.media_url  as product_media_default  from  product as pp left join product_me
 left join product_category pc on pc.product_id=pp.id left join category cc on cc.id= pc.category_id order by pp.id DESC LIMIT ${pagefrom}, ${req.pageSize}`
       );
       */
-      if ((req.type = "preassemblesProduct")) {
+      if ((req.type == "preassemblesProduct")) {
         const [results] = await conn.execute(
           `select
         pp.id, pp.name,pp.sparky_id,pp.isDuplicate,pp.position,pp.slug,pp.status,
@@ -4594,8 +4594,10 @@ const crudProductFilters = async (req) => {
       );
       console.log("isExists crudProductFilters", isExists);
       if (isExists.length > 0) {
-        console.log("exists", isExists);
-        return;
+        throw new ApiError(
+          409,
+          "Cannot create filters for this subcategory as it already exists"
+        );
       }
       for (let i = 1; i <= req.countFilters; i++) {
         console.log(`insert into ${config.env}.subCat_product_filter_master(subCatId,subCatName,filterName,custmFilterNumber)
@@ -4618,9 +4620,26 @@ const crudProductFilters = async (req) => {
       );
       conn.end();
       return results;
+    } else if (req.crudMethod == "update") {
+      await conn.execute(
+        `delete from ${config.env}.subCat_product_filter_master where subCatId=${req.subCategory}`
+      );
+      const insertPromises = [];
+      for (let i = 1; i <= req.countFilters; i++) {
+        console.log(`insert into ${config.env}.subCat_product_filter_master(subCatId,subCatName,filterName,custmFilterNumber)
+        VALUES('${req.subCategory}','${req.valueCategoryWithSubCategoryName}','${req[i]}',${i})`);
+        
+        insertPromises.push(conn.execute(
+          `insert into ${config.env}.subCat_product_filter_master(subCatId,subCatName,filterName,custmFilterNumber)
+          VALUES('${req.subCategory}','${req.valueCategoryWithSubCategoryName}','${req[i]}',${i})`
+        ));
+      }
+      await Promise.all(insertPromises);
+      conn.end();
+      return { message: "All filters updated successfully" };
     } else if (req.crudMethod == "delete") {
       const [result] = await conn.execute(
-        `delete from ${config.env}.email_vouchers where id=${req.id}`
+        `delete from ${config.env}.subcat_product_filter_master where subCatId=${req.id}`
       );
       return result;
     }
@@ -5126,6 +5145,29 @@ const check = async (queryJson) => {
   }
 };
 
+const getProductFiltersBySubCatId = async (subCatId) => {
+  let conn = "";
+  try {
+    conn = await mysql.createConnection(config.mysqlDBConfig);
+    const [results] = await conn.execute(
+      `SELECT subcatId, 
+              SUBSTRING_INDEX(c.name,'/',1) AS category,
+              SUBSTRING_INDEX(c.name,'/',-1) AS sub_category,
+              JSON_ARRAYAGG(JSON_OBJECT('custmFilterNumber', custmFilterNumber, 'filterName', filterName)) AS product_filter_json
+      FROM subcat_product_filter_master 
+      JOIN category c ON c.id = subCatId
+      WHERE subcatId = ?
+      GROUP BY c.id, subcatId, category, sub_category`,
+      [subCatId]
+    )
+    conn.end();
+    return results[0];
+  } catch (e) {
+    if (conn) conn.end();
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, `Error :${e}`);
+  }
+};
+
 module.exports = {
   GetLoginDetils,
   logout,
@@ -5239,4 +5281,5 @@ module.exports = {
   duplicateProduct,
   dashboardData,
   check,
+  getProductFiltersBySubCatId,
 };

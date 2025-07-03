@@ -1670,8 +1670,13 @@ const crudProductFilters = async (req, res) => {
       res.status(500).send([]);
     }
   } catch (e) {
-    console.log("crudProductFilters error :", e);
-    res.status(500).send([]);
+    if(e){
+        res.status(e.statusCode).send({ message: e.message });
+    }else{
+        console.log("crudProductFilters error :", e);
+        res.status(500).send([]);
+    }
+   
   }
 };
 
@@ -1711,6 +1716,24 @@ const check = async (req, res, next) => {
   // }
   const checkResponse = await cyrusCMS.check(req.query);
   res.status(200).json(checkResponse);
+};
+
+const getProductFiltersBySubCatId = async (req, res) => {
+  try {
+    const subCatId = req.body.subCatId || req.query.subCatId;
+    if (!subCatId) {
+      return res.status(400).send({ message: "subCatId is required" });
+    }
+    const result = await cyrusCMS.getProductFiltersBySubCatId(subCatId);
+    if (result) {
+      res.status(200).send({ data: result });
+    } else {
+      res.status(404).send({ message: "No data found" });
+    }
+  } catch (e) {
+    console.log("getProductFiltersBySubCatId error :", e);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
 };
 
 module.exports = {
@@ -1798,4 +1821,5 @@ module.exports = {
   duplicateProduct,
   dashboardData,
   check,
+  getProductFiltersBySubCatId,
 };

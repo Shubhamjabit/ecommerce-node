@@ -93,4 +93,5 @@ router.post("/createOrderInTLM", cyrusSync.createOrderInTLM);
 router.post("/duplicateProduct", cyrusSync.duplicateProduct);
 router.get("/dashboardData", cyrusSync.dashboardData);
 router.get("/check", cyrusSync.check);
+router.post("/getProductFiltersBySubCatId", cyrusSync.getProductFiltersBySubCatId);
 module.exports = router;
